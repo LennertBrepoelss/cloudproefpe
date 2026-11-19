@@ -1,7 +1,7 @@
 # PE 1: AWS Management & CLI Implementatie (150 punten)
 
 ## Overzicht
-Voor deze PE-opdracht werk je in je **AWS Academy Learner Lab**.
+Voor deze PE-opdracht werk je in een aparte AWS Academy leeromgeving met de naam [AWS Academy Learner Lab 141250](https://awsacademy.instructure.com//courses/141250).
 
 Tijdens deze opdracht zal je een  infrastructuur opzetten in AWS via **de Management Console** of via de **AWS CLI (versie 2)**.  
 De resultaten worden gedocumenteerd in het bestand `oplossing.md`, samen met alle relevante **commando’s** en **screenshots**.
@@ -29,10 +29,10 @@ Veel succes!
 Een voorbeeld van de verwachte structuur vind je onder **Antwoord A** in `oplossing.md`.
 
 ### Networking (B) — 10 punten
-Maak een nieuwe **VPC** aan met CIDR-block `10.8.0.0/16`.  
+Maak een nieuwe **VPC** aan met CIDR-block `10.1.0.0/16`.  
 Voorzie de VPC van een tag met:
 - **Key:** `Name`  
-- **Value:** `vpc-examtest`
+- **Value:** `vpc-practest`
 
 Documenteer je commando(s) en/of screenshots in `oplossing.md` onder de titel `Antwoord B`
 
@@ -40,8 +40,8 @@ Documenteer je commando(s) en/of screenshots in `oplossing.md` onder de titel `A
 
 ### Subnetting(C) — 30 punten
 Maak **twee publieke subnets** aan met CIDR-blocks:
-- subnet met naam `vpc-examtest-public-a` en CIDR `10.8.1.0/24`
-- subnet met naam `vpc-examtest-public-b` en CIDR `10.8.2.0/24`
+- subnet met naam `vpc-practest-public-a` en CIDR `10.1.10.0/24`
+- subnet met naam `vpc-practest-public-b` en CIDR `10.1.20.0/24`
 
 Gebruik hiervoor de availability zones:
 - `us-east-1a`
@@ -55,11 +55,11 @@ Documenteer je commando(s) en/of screenshots in `oplossing.md` onder de titel `A
 
 ### Internetverbinding (D) — 20 punten
 Maak een internet gateway met naam:
-- `vpc-examtest-igw`
+- `vpc-practest-igw`
 
 Koppel deze aan de VPC.  
 Maak een route table met naam:
-- `vpc-examtest-rtb-public`
+- `vpc-practest-rtb-public`
 
 Voeg een route toe voor internetverkeer (`0.0.0.0/0`) via de internet gateway. Koppel de route table aan beide publieke subnets.
 
@@ -69,16 +69,16 @@ Documenteer je commando(s) en/of screenshots in `oplossing.md` onder de titel `A
 
 ### Security Group (E) — 20 punten
 Maak een nieuwe security group aan met naam:
-- `exam-secgroup`
+- `prac-secgroup`
 
-De security group hoort bij de VPC `vpc-examtest`.  
+De security group hoort bij de VPC `vpc-practest`.  
 Voeg drie inbound regels toe:
 
 | Type | Poort | Bron |
 |------|--------|------|
 | SSH | 22 | Eigen IP-adres |
 | HTTP | 80 | 0.0.0.0/0 |
-| Custom TCP | 222 | 1.1.1.1/32 |
+| Custom TCP | 122 | 8.8.4.4/32 |
 
 Documenteer je commando(s) en/of screenshots in `oplossing.md` onder de titel `Antwoord E`
 
@@ -86,7 +86,7 @@ Documenteer je commando(s) en/of screenshots in `oplossing.md` onder de titel `A
 
 ### Key Pair (F) — 10 punten
 Maak een nieuw **key pair** aan met:
-- Naam: `exam-key`
+- Naam: `prac-key`
 - Type: `rsa`
 
 Documenteer je commando(s) en/of screenshots in `oplossing.md` onder de titel `Antwoord F`
@@ -95,14 +95,14 @@ Documenteer je commando(s) en/of screenshots in `oplossing.md` onder de titel `A
 
 ### EC2 Instances (G) — 30 punten
 Maak **twee EC2-instances** aan met namen:
-- `ec2-exam-1`
-- `ec2-exam-2`
+- `ec2-prac-1`
+- `ec2-prac-2`
 
 Gebruik:
 - **AMI:** Amazon Linux 2023 kernel-6.1 AMI  
 - **Instance type:** `t3.small`
-- **Key pair:** `exam-key`
-- **Security group:** `exam-secgroup`
+- **Key pair:** `prac-key`
+- **Security group:** `prac-secgroup`
 - **Subnets:** elk in een verschillend publiek subnet  
 - **User data:** script uit `./userdata`
 
@@ -112,7 +112,7 @@ Documenteer je commando(s) en/of screenshots in `oplossing.md` onder de titel `A
 
 ### Static Website in S3 (H) — 30 punten
 Maak een nieuwe **S3 bucket** aan met de naam:
-- `infra-exam-<studentennummer>`
+- `infra-prac-<studentennummer>`
 
 Activeer **Static Website Hosting** en zorg dat de website publiek toegankelijk is via een browser.  
 Gebruik onderstaande bucket policy (pas de bucketnaam aan):
@@ -134,7 +134,7 @@ Gebruik onderstaande bucket policy (pas de bucketnaam aan):
 Indien je een foutboodschap ziet staan onder de policy editor dan mag je deze negeren.
 
 Open lokaal de file `./website/index.html` en pas **regel 29** aan:  
-vervang de URL door het **publieke IP-adres** van `ec2-exam-1`.
+vervang de URL door het **publieke IP-adres** van `ec2-prac-1`.
 
 Upload vervolgens de aangepaste `index.html` naar de root van je S3 bucket.
 
